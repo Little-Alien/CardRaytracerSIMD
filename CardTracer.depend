@@ -1,0 +1,60 @@
+# depslib dependency file v1.0
+1588908859 source:c:\_dev\cpp\cardtracer\main.cpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<conio.h>
+	<math.h>
+	<time.h>
+	"iacaMarks.h"
+	<immintrin.h>
+
+1372068112 c:\_dev\cpp\cardtracer\iacamarks.h
+
+1638126160 source:c:\_dev\cpp\cardtracer2\main.cpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<conio.h>
+	<math.h>
+	<time.h>
+	<immintrin.h>
+
+1372068112 c:\_dev\cpp\cardtracer2\iacamarks.h
+
+1661006126 source:d:\_dev\cpp\cardtracer2\main.cpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<conio.h>
+	<math.h>
+	<time.h>
+	<immintrin.h>
+
+1661005993 source:d:\_dev\cpp\cardtracer2\cardmain.cpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<conio.h>
+	<math.h>
+	<time.h>
+	<immintrin.h>
+
+1661006126 source:d:\_dev\cpp\cardtracer_release\main.cpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<conio.h>
+	<math.h>
+	<time.h>
+	<immintrin.h>
+
+1661107555 source:d:\_dev\cpp\cardtracer_release\cardmain.cpp
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	<conio.h>
+	<math.h>
+	<time.h>
+	<immintrin.h>
+
