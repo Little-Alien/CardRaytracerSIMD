@@ -22,11 +22,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <conio.h>
 #include <math.h>
 #include <time.h>
-#include  <immintrin.h>
-//#include <omp.h>
 
 #if __clang__
     #define vExt_vector 0  // use vector extensions for main vector structure (clang only)
@@ -38,7 +35,7 @@
 #if _MSC_VER //  MSVC compiler
     #define vExt_proc 0 // use tracer4 proc with vector extensions - disable for default MSVC, enable for Clang/MSVC
     #define vExt_ClearUnused 1 // must be 1 for Clang/MSVC
-#else
+#else        // gcc, clang, etc.
     #define vExt_proc 1
     #define vExt_ClearUnused 0
 #endif
@@ -52,15 +49,15 @@
 
 #define WIDTH  512
 #define HEIGHT 512
-#define RayCnt 64 // lower value can be set for faster testing
+#define RayCnt (64*1) // lower value can be set for faster testing, higher to make more smooth image
 
-const int TestCycles = 32;
+const int TestCycles = 20;
 const float MaxTestTime = 2.0f;
 
 // "float" accuracy seems to be enough for graphics
 typedef float fltype;
 //typedef double fltype;
-fltype const RayK = (fltype) 224 / RayCnt;
+fltype const RayK = (fltype) 224 / (fltype) RayCnt;
 
 #if vExt_vector
     typedef fltype Vector __attribute__((ext_vector_type(4)));
@@ -95,7 +92,9 @@ fltype const RayK = (fltype) 224 / RayCnt;
     static const Vector ZERO_VECTOR = Vector(0, 0, 0);
     static const Vector Z_ORTHO_VECTOR = Vector(0, 0, 1);
     static const Vector CAMERA_ASPECT_VECTOR = Vector(17, 16, 8);
-    static const Vector CAMERA_DEST_VECTOR = Vector(-6, -16, 0);
+    //static const Vector CAMERA_DEST_VECTOR = Vector(-6, -16, 0);
+    //static const Vector CAMERA_ASPECT_VECTOR = Vector(17/2, 16/2, 8/2);
+    static const Vector CAMERA_DEST_VECTOR = Vector(-6/2, -16/2, 0);
 
     static const Vector COLOR_CELL1_VECTOR = Vector(3, 1, 1);
     static const Vector COLOR_CELL2_VECTOR = Vector(3, 3, 3);
@@ -222,7 +221,7 @@ int tracer1(const Vector &o, const Vector &d, fltype &t, Vector& n) {
 		n = Z_ORTHO_VECTOR;
 		m = 1;
 	}
-	//The world is encoded in G, with 10 lines and 20 columns
+	//The world is encoded in G, with 9 lines and 19 columns
 	for (int k = 19; k--;)
 		for (int j = 9; j--;)
 			if (G[j] & 1 << k) {
@@ -261,7 +260,7 @@ int tracer2(const Vector &o, const Vector &d, fltype &t, Vector& n) {
 		m = 1;
 	}
 
-	//The world is encoded in G, with 10 lines and 20 columns
+	//The world is encoded in G, with 9 lines and 19 columns
     for (int j = 0; j < SpCnt; j++) {
         Vector p = o + Vector{Gxa[j], 0.0, Gza[j]};
         fltype b = dot(p, d);
@@ -362,6 +361,8 @@ int tracer3(const Vector &o, const Vector &d, fltype &t, Vector& n)
 
 
 #if vExt_proc
+
+#include  <immintrin.h>
 
 #if __AVX512F__
     #define VSize 16
@@ -693,10 +694,6 @@ int main(int argc, char **argv)
 */
 	fwrite(Dst, sizeof(Dst), 1, out);
 	fclose(out);
-#if _MSC_VER
-    _getch();
-#else
-    getch();
-#endif
+    getchar();
 	return 0;
 }
